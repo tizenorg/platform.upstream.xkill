@@ -26,6 +26,7 @@ other dealings in this Software without prior written authorization
 from The Open Group.
 
 */
+/* $XFree86: xc/programs/xkill/xkill.c,v 1.6 2001/12/14 20:02:06 dawes Exp $ */
 
 /*
  * xkill - simple program for destroying unwanted clients
@@ -37,6 +38,7 @@ from The Open Group.
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <ctype.h>
 
 #include <X11/Xos.h>
@@ -52,11 +54,17 @@ char *ProgramName;
 #define SelectButtonAny (-1)
 #define SelectButtonFirst (-2)
 
-XID parse_id(), get_window_id();
-int parse_button(), verify_okay_to_kill();
+static int parse_button ( char *s, int *buttonp );
+static XID parse_id ( char *s );
+static XID get_window_id ( Display *dpy, int screen, int button, char *msg );
+static int catch_window_errors ( Display *dpy, XErrorEvent *ev );
+static int kill_all_windows ( Display *dpy, int screenno, Bool top );
+static int verify_okay_to_kill ( Display *dpy, int screenno );
+static Bool wm_state_set ( Display *dpy, Window win );
+static Bool wm_running ( Display *dpy, int screenno );
 
-Exit (code)
-    int code;
+static void
+Exit(int code)
 {
     if (dpy) {
 	XCloseDisplay (dpy);
@@ -64,7 +72,8 @@ Exit (code)
     exit (code);
 }
 
-usage ()
+static void
+usage(void)
 {
     static char *options[] = {
 "where options include:",
@@ -85,9 +94,8 @@ NULL};
     Exit (1);
 }
 
-main (argc, argv)
-    int argc;
-    char *argv[];
+int
+main(int argc, char *argv[])
 {
     int i;				/* iterator, temp variable */
     char *displayname = NULL;		/* name of server to contact */
@@ -216,11 +224,12 @@ main (argc, argv)
     }
 
     Exit (0);
+    /*NOTREACHED*/
+    return 0;
 }
 
-int parse_button (s, buttonp)
-    register char *s;
-    int *buttonp;
+static int 
+parse_button(char *s, int *buttonp)
 {
     register char *cp;
 
@@ -250,8 +259,8 @@ int parse_button (s, buttonp)
 }
 
 
-XID parse_id (s)
-    char *s;
+static XID 
+parse_id(char *s)
 {
     XID retval = None;
     char *fmt = "%ld";			/* since XID is long */
@@ -264,11 +273,8 @@ XID parse_id (s)
     return (retval);
 }
 
-XID get_window_id (dpy, screen, button, msg)
-    Display *dpy;
-    int screen;
-    int button;
-    char *msg;
+static XID 
+get_window_id(Display *dpy, int screen, int button, char *msg)
 {
     Cursor cursor;		/* cursor to use when selecting */
     Window root;		/* the current root */
@@ -329,17 +335,14 @@ XID get_window_id (dpy, screen, button, msg)
 }
 
 
-int catch_window_errors (dpy, ev)
-    Display *dpy;
-    XErrorEvent *ev;
+static int 
+catch_window_errors(Display *dpy, XErrorEvent *ev)
 {
     return 0;
 }
 
-int kill_all_windows (dpy, screenno, top)
-    Display *dpy;
-    int screenno;
-    Bool top;
+static int 
+kill_all_windows(Display *dpy, int screenno, Bool top)
 {
     Window root = RootWindow (dpy, screenno);
     Window dummywindow;
@@ -377,9 +380,8 @@ int kill_all_windows (dpy, screenno, top)
 /*
  * ask the user to press in the root with each button in succession
  */
-int verify_okay_to_kill (dpy, screenno)
-    Display *dpy;
-    int screenno;
+static int 
+verify_okay_to_kill(Display *dpy, int screenno)
 {
     unsigned char pointer_map[256];
     int count = XGetPointerMapping (dpy, pointer_map, 256);
@@ -409,9 +411,8 @@ int verify_okay_to_kill (dpy, screenno)
 /* Return True if the property WM_STATE is set on the window, otherwise
  * return False.
  */
-Bool wm_state_set(dpy, win) 
-Display	*dpy;
-Window	win;
+static Bool 
+wm_state_set(Display *dpy, Window win) 
 {
     Atom wm_state;
     Atom actual_type;
@@ -433,9 +434,8 @@ Window	win;
  * otherwise, return False.
  */
 
-Bool wm_running(dpy, screenno)
-Display *dpy;
-int	screenno;
+static Bool 
+wm_running(Display *dpy, int screenno)
 {
     XWindowAttributes	xwa;
     Status		status;
