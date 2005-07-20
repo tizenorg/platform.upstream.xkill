@@ -21,8 +21,8 @@
 
 bin_PROGRAMS = xkill
 
-xkill_CFLAGS = $(DEP_CFLAGS)
-xkill_LDADD = $(DEP_LIBS)
+xkill_CFLAGS = $(XKILL_CFLAGS)
+xkill_LDADD = $(XKILL_LIBS)
 
 xkill_SOURCES =	\
         xkill.c
