@@ -27,6 +27,6 @@ xkill_LDADD = $(XKILL_LIBS)
 xkill_SOURCES =	\
         xkill.c
 
-dist_man_MANS = \
+dist_man1_MANS = \
         xkill.man
 
