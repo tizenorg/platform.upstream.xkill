@@ -18,3 +18,7 @@ stamp-h1
 xkill
 xkill.1
 *~
+*.o
+xkill-*.tar.*
+ChangeLog
+tags
