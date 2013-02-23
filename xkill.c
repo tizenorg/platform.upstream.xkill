@@ -60,7 +60,7 @@ static int verify_okay_to_kill ( Display *dpy, int screenno );
 static Bool wm_state_set ( Display *dpy, Window win );
 static Bool wm_running ( Display *dpy, int screenno );
 
-static void
+static void _X_NORETURN
 Exit(int code, Display *dpy)
 {
     if (dpy) {
@@ -69,7 +69,7 @@ Exit(int code, Display *dpy)
     exit (code);
 }
 
-static void
+static void _X_NORETURN
 usage(void)
 {
     const char *options =
