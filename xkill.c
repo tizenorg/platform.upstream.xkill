@@ -52,7 +52,7 @@ static char *ProgramName;
 #define SelectButtonFirst (-2)
 
 static int parse_button ( char *s, int *buttonp );
-static XID get_window_id ( Display *dpy, int screen, int button, char *msg );
+static XID get_window_id ( Display *dpy, int screen, int button, const char *msg );
 static int catch_window_errors ( Display *dpy, XErrorEvent *ev );
 static int kill_all_windows ( Display *dpy, int screenno, Bool top );
 static int verify_okay_to_kill ( Display *dpy, int screenno );
@@ -255,7 +255,7 @@ parse_button(char *s, int *buttonp)
 }
 
 static XID 
-get_window_id(Display *dpy, int screen, int button, char *msg)
+get_window_id(Display *dpy, int screen, int button, const char *msg)
 {
     Cursor cursor;		/* cursor to use when selecting */
     Window root;		/* the current root */
