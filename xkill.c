@@ -52,7 +52,6 @@ static char *ProgramName;
 #define SelectButtonFirst (-2)
 
 static int parse_button ( char *s, int *buttonp );
-static XID parse_id ( char *s );
 static XID get_window_id ( Display *dpy, int screen, int button, char *msg );
 static int catch_window_errors ( Display *dpy, XErrorEvent *ev );
 static int kill_all_windows ( Display *dpy, int screenno, Bool top );
@@ -113,7 +112,12 @@ main(int argc, char *argv[])
 		continue;
 	      case 'i':			/* -id resourceid */
 		if (++i >= argc) usage ();
-		id = parse_id (argv[i]);
+		id = strtoul (argv[i], NULL, 0);
+		if (id == 0 || id >= 0xFFFFFFFFU) {
+		    fprintf (stderr, "%s:  invalid id \"%s\"\n",
+			     ProgramName, argv[i]);
+		    Exit (1, dpy);
+		}
 		continue;
 	      case 'b':			/* -button number */
 		if (++i >= argc) usage ();
@@ -248,21 +252,6 @@ parse_button(char *s, int *buttonp)
 
     *buttonp = atoi (s);
     return (1);
-}
-
-
-static XID 
-parse_id(char *s)
-{
-    XID retval = None;
-    char *fmt = "%ld";			/* since XID is long */
-
-    if (s) {
-	if (*s == '0') s++, fmt = "%lo";
-	if (*s == 'x' || *s == 'X') s++, fmt = "%lx";
-	sscanf (s, fmt, &retval);
-    }
-    return (retval);
 }
 
 static XID 
