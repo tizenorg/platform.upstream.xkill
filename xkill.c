@@ -81,7 +81,6 @@ usage(void)
 "    -button number          specific button to be pressed to select window\n"
 "    -all                    kill all clients with top level windows\n"
 "\n";
-    char **cpp;
 
     fprintf (stderr, "usage:  %s [-option ...]\n%s",
 	     ProgramName, options);
