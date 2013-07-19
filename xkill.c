@@ -368,7 +368,7 @@ verify_okay_to_kill(Display *dpy, int screenno)
     int count = XGetPointerMapping (dpy, pointer_map, 256);
     int i;
     int button;
-    static char *msg = "the root window";
+    const char *msg = "the root window";
     Window root = RootWindow (dpy, screenno);
     int okay = 0;
 
