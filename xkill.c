@@ -35,6 +35,10 @@ from The Open Group.
  * Warning, this is a very dangerous client....
  */
 
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -78,6 +82,7 @@ usage(void)
 "    -frame                  don't ignore window manager frames\n"
 "    -button number          specific button to be pressed to select window\n"
 "    -all                    kill all clients with top level windows\n"
+"    -version                print version and exit\n"
 "\n";
 
     fprintf (stderr, "usage:  %s [-option ...]\n%s",
@@ -129,6 +134,9 @@ main(int argc, char *argv[])
 	      case 'a':			/* -all */
 		kill_all = True;
 		continue;
+              case 'v':
+                puts(PACKAGE_STRING);
+                exit(0);
 	      default:
 		usage ();
 	    }
