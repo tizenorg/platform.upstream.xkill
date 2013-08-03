@@ -27,7 +27,7 @@
 xkill - kill a client by its X resource
 .SH SYNOPSIS
 .B "xkill"
-[\-display \fIdisplayname\fP] [\-id \fIresource\fP] [\-button number] [\-frame] [\-all]
+[\-display \fIdisplayname\fP] [\-id \fIresource\fP] [\-button number] [\-frame] [\-all] [\-version]
 .SH DESCRIPTION
 .PP
 .I Xkill
@@ -66,6 +66,9 @@ This option indicates that xkill should ignore the standard conventions for
 finding top-level client windows (which are typically nested inside a window
 manager window), and simply believe that you want to kill direct children of
 the root.
+.TP 8
+.B \-version
+This option makes xkill print its version and exit without killing anything.
 .SH CAVEATS
 This command does not provide any warranty that the application whose
 connection to the X server is closed will abort nicely, or even abort
