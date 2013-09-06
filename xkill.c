@@ -241,9 +241,9 @@ parse_button(char *s, int *buttonp)
     for (cp = s; *cp; cp++) {
 	if (isascii (*cp) && isupper (*cp)) {
 #ifdef _tolower
-	    *cp = _tolower (*cp);
+	    *cp = (char) _tolower (*cp);
 #else
-	    *cp = tolower (*cp);
+	    *cp = (char) tolower (*cp);
 #endif /* _tolower */
 	}
     }
