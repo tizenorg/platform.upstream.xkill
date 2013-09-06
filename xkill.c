@@ -325,7 +325,7 @@ get_window_id(Display *dpy, int screen, int button, const char *msg)
 
 
 static int 
-catch_window_errors(Display *dpy, XErrorEvent *ev)
+catch_window_errors(_X_UNUSED Display *dpy, _X_UNUSED XErrorEvent *ev)
 {
     return 0;
 }
