@@ -241,9 +241,9 @@ parse_button(char *s, int *buttonp)
     for (cp = s; *cp; cp++) {
 	if (isascii (*cp) && isupper (*cp)) {
 #ifdef _tolower
-	    *cp = _tolower (*cp);
+	    *cp = (char) _tolower (*cp);
 #else
-	    *cp = tolower (*cp);
+	    *cp = (char) tolower (*cp);
 #endif /* _tolower */
 	}
     }
@@ -325,7 +325,7 @@ get_window_id(Display *dpy, int screen, int button, const char *msg)
 
 
 static int 
-catch_window_errors(Display *dpy, XErrorEvent *ev)
+catch_window_errors(_X_UNUSED Display *dpy, _X_UNUSED XErrorEvent *ev)
 {
     return 0;
 }
