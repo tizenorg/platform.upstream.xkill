@@ -1,6 +1,6 @@
 Summary: kill a client by its X resource
 Name: xkill
-Version: 1.0.3
+Version: 1.0.4
 Release: 1
 License: MIT
 Group: User Interface/X
@@ -50,7 +50,7 @@ the window.
 %setup -q
 
 %build
-%configure
+%autogen
 make
 
 %install
