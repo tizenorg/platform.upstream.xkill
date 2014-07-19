@@ -1,3 +1,5 @@
+%bcond_with x
+
 Summary: kill a client by its X resource
 Name: xkill
 Version: 1.0.4
@@ -36,6 +38,10 @@ BuildRequires: libXinerama-devel
 %define DEF_SUBDIRS xkill
 Provides: %{DEF_SUBDIRS}
 #Provides: x11-xserver-utils = %{version}
+
+%if !%{with x}
+ExclusiveArch:
+%endif
 
 %description
 Xkill  is  a utility for forcing the X server to close connections to clients.
